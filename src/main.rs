@@ -31,7 +31,10 @@ fn main() -> Result<()> {
             .context("Error in parsing params")?;
             make_filter::make_filter(params)?;
         }
-        [_, ref cmd] if cmd == "check" => spell_check::spell_check(),
+        // maybe add more words later :)
+        [_, ref cmd, ref bin_path, ref word] if cmd == "check" => {
+            spell_check::spell_check(bin_path.to_owned(), word.to_owned())?
+        },
         [_, ref cmd] if cmd == "help" => print_options(),
         _ => print_options(),
     };

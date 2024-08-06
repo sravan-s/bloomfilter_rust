@@ -8,13 +8,12 @@ pub struct Header {
     pub hash_count: u8,
 }
 
-const HEADER_ENCODE_SIZE: usize = 10;
+pub const HEADER_ENCODE_SIZE: usize = 10;
 
 pub fn serialize(h: Header) -> BitVec {
     let mut bytes = Vec::new();
     bytes.extend(h.version.to_be_bytes());
     bytes.extend(h.bin_length.to_be_bytes());
-    println!("{:?}", h.bin_length.to_be_bytes());
     bytes.extend(h.hash_count.to_be_bytes());
     BitVec::from_bytes(&bytes)
 }
