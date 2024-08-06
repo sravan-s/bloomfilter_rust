@@ -3,7 +3,7 @@ use std::{
     io::{BufRead, BufReader, Write},
     path::PathBuf,
     sync::{Arc, Mutex},
-    u64,
+    u64, usize,
 };
 
 use anyhow::{anyhow, Context, Ok, Result};
@@ -35,10 +35,13 @@ pub fn make_filter(params: FilterParams) -> Result<()> {
     let handle = File::open(params.path).context("Trying to open dictonary")?;
     let f = BufReader::new(handle);
     // using rayon for parallel processing
-    let vec_size: usize = params.m.try_into().context("Cannot create bit_array")?;
+    let vec_size: u64 = params.m;
+    let vec_size: usize = hash::round_up_to_next_multiple_of_8(vec_size)
+        .try_into()
+        .context("Cannot create bit_array")?;
 
     let list = Arc::new(Mutex::new(BitVec::from_elem(
-        vec_size + HEADER_ENCODE_SIZE,
+        vec_size + (HEADER_ENCODE_SIZE * 8),
         false,
     )));
 

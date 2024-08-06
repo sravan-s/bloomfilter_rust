@@ -9,7 +9,7 @@ To build bloomfilter: bloomfilter build path_to_dict_src path_to_dict_output M K
 
 For our specific use case -> N = 338782 (dictonary.txt with 338782 words) To achieve a P = 0.01 (1 false positive in 100), Set M=3300300(~400KiB) And K=6
 
-MAX_SIZE of M = 2^64 MAX_SIZE of K = 2^8
+MAX_SIZE of M = 2^64 - 1 MAX_SIZE of K = 2^8 - 1
 
 examples:
 

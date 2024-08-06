@@ -2,6 +2,23 @@ use std::{u64, u8};
 
 use sha2::{Digest, Sha256};
 
+/*
+ * Add 7 to the Number ->
+ * This step ensures that any number that isn't already a multiple of 8 will be incremented
+ * to the next multiple of 8 when the bitwise AND operation is performed
+ * Bitwise AND with !7 ->
+ * 7 in binary is 00000111.
+ * !7 in binary is 11111000, which is the mask to clear the last 3 bits
+*/
+pub fn round_up_to_next_multiple_of_8(n: u64) -> u64 {
+    // for handling overflow
+    match n.checked_add(7) {
+        Some(x) => (x + 7) & !7,
+        // special case for 2^64
+        _ => u64::MAX - 7,
+    }
+}
+
 // Sha256 returns a vec of bytes, need to convert it to u64
 pub fn get_hash(word: String, suffix: String, range: u64) -> u64 {
     let mut hasher_1 = Sha256::new();
