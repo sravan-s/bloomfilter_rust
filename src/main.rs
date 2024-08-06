@@ -1,4 +1,5 @@
 mod hash;
+mod header;
 mod make_filter;
 mod spell_check;
 use std::env;
